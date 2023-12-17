@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Halaman Formulir</title>
+
+        <!-- styling untuk halaman -->
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #ffeccc;
+            }
+
+            header {
+                background-color: #007763;
+                color: #ffeccc;
+                padding: 15px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            header img {
+                max-width: 80px;
+                height: auto;
+            }
+
+            h1 {
+                text-align: center;
+            }
+
+            header nav {
+                display: flex;
+                align-items: center;
+            }
+
+            nav a {
+                color: #ffeccc;
+                margin: 0 15px;
+                position: relative;
+            }
+
+            nav a:hover {
+                background-color: #04AA6D;
+                color: white;
+            }
+
+            nav a:hover::before {
+                width: 100%;
+            }
+
+            
+            h2 {
+                font-size: 24px;
+                color: #333;
+                margin-top: 50px;
+                text-align: center;
+            }
+
+            h3{
+                text-align: center;
+            }
+
+            form {
+                padding: 40px;
+                background-color: #ffeccc;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                text-align: justify;
+            }
+
+            form input,
+            form select {
+                width: calc(100% - 22px);
+                padding: 10px;
+                margin: 20px 0;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            form input[type="checkbox"],
+            form input[type="radio"] {
+                width: auto;
+                margin: 0 5px 0 0;
+            }
+
+            form input[type="submit"] {
+                background-color: #0085ad;
+                color: #ffeccc;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            form input[type="submit"]:hover {
+                background-color: #006699;
+            }
+
+            form a {
+                display: block;
+                margin-top: 10px;
+                text-align: center;
+                color: #0085ad;
+                text-decoration: none;
+            }
+
+            form a:hover {
+                text-decoration-line: underline overline;
+            }
+            footer {
+                text-align: center;
+                padding: 3px;
+                background-color: black;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <img src="./assets/logo.jpg" alt="Logo">
+            <h1>Arknights</h1>
+            <nav>
+                <a href="index.html">Operator</a>
+                <a href="data.php">Data</a>
+            </nav>
+        </header>
+
+        <h2>FORMULIR PENDAFTARAN OPERATOR</h2>
+
+        <form id="orderForm" action="send.php" method="post">
+            <h3>Nama Operator</h3>
+            <input type="text" name="nama" id="nama" placeholder="Nama">
+            <br>
+            <h3>Skill Type</h3>
+            <input type="radio" name="jenis_skill" id="passive" value="passive"> Passive
+            <input type="radio" name="jenis_skill" id="active" value="active"> Active
+            <br>
+            <h3>Kelas</h3>
+            <input type="checkbox" name="opclass[]" value="vanguard"> Vanguard
+            <input type="checkbox" name="opclass[]" value="guard"> Guard
+            <input type="checkbox" name="opclass[]" value="defender"> Defender
+            <input type="checkbox" name="opclass[]" value="medic"> Medic
+            <br>
+            <h3>Place of Birth</h3>
+            <select name="country" id="country">
+              <option value="" selected disabled>Pilih Negara</option>
+              <option value="sargon">Sargon</option>
+              <option value="rimbiliton">Rim Billiton</option>
+              <option value="ursus">Ursus</option>
+              <option value="higashi">Higashi</option>
+            </select>
+            <br>
+            <input type="submit" value="Submit">
+          </form>
+        <footer>
+            <p>Copyright© Institut Teknologi Sumatera 2023</p>
+            <p><a href="mailto:kevinsien.120140174@student.itera.ac.id">kevinsien.120140174@student.itera.ac.id"</a></p>
+        </footer>
+
+          <script>
+              function setCookie(name, value, days) {
+                  const expires = new Date();
+                  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+                  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+              }
+
+              function getCookie(name) {
+                  const cookieName = `${name}=`;
+                  const decodedCookie = decodeURIComponent(document.cookie);
+                  const cookieArray = decodedCookie.split(';');
+
+                  for (let i = 0; i < cookieArray.length; i++) {
+                    let cookie = cookieArray[i].trim();
+                    if (cookie.indexOf(cookieName) === 0) {
+                      return cookie.substring(cookieName.length, cookie.length);
+                    }
+                  }
+                  return null;
+              }
+
+              function deleteCookie(name) {
+                  document.cookie = `${name}=;expires=Thu, 01 Jan 2000 00:00:00 UTC;path=/;`;
+              }
+
+              function setLocalStorage(key, value) {
+                  localStorage.setItem(key, JSON.stringify(value));
+              }
+              function getLocalStorage(key) {
+                const storedValue = localStorage.getItem(key);
+                return storedValue ? JSON.parse(storedValue) : null;
+              }
+
+               function deleteLocalStorage(key) {
+                localStorage.removeItem(key);
+              }
+
+
+              function validateForm() {
+                    const nama = document.getElementById("nama");
+                    if (nama.value === "") {
+                        alert("Silahkan isi nama.");
+                        return false;
+                    }
+
+                    const operatorClass = document.querySelectorAll("input[name='opclass[]']:checked");
+                    if (operatorClass.length === 0) {
+                        alert("Pilih Minimal Satu Class.");
+                        return false;
+                    }
+
+                    const jenisSkill = document.querySelector("input[name='jenis_skill']:checked");
+                    if (!jenisSkill) {
+                        alert("Belum Memilih Jenis Skill");
+                        return false;
+                    }
+
+                    const negara = document.querySelectorAll("input[name='country']:checked");
+                    if (!negara) {
+                        alert("Silahkan pilih metode pengiriman.");
+                        return false;
+                    }
+                    return true;
+                }
+                function showConfirmation() {
+                    if (confirm("Apakah Anda yakin ingin mengsubmit data operator?")) {
+                        submitForm();
+                    }
+                }
+
+                document.getElementById("orderForm").addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    if (validateForm()) {
+                        showConfirmation();
+                    }
+                });
+
+                function submitForm() {
+                    const data = new FormData(document.getElementById("orderForm"));
+                    fetch("send.php", {
+                        method: "POST",
+                        body: data,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                      if (data.success) {
+                        window.location.href = "data.php";
+                    } else {
+                        alert(data.error);
+                    }
+                });
+                }
+        </script>
+
+    </body>
+</html>
